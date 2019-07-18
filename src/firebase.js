@@ -6,7 +6,7 @@ firebase.initializeApp({
   authDomain: "vue-draw-something.firebaseapp.com",
   databaseURL: "https://vue-draw-something.firebaseio.com",
   projectId: "vue-draw-something",
-  storageBucket: "",
+  storageBucket: "gs://vue-draw-something.appspot.com",
   messagingSenderId: "353268492373",
   appId: "1:353268492373:web:d18149bd74cef3e3"
 })
@@ -18,3 +18,6 @@ export const auth = firebase.auth();
 
 // 導出firebase的database模組
 export const database = firebase.database();
+
+// 導出firebase的storage模組
+export const storage = firebase.storage();

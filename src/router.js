@@ -8,7 +8,7 @@ import RoomSelect from "./views/RoomSelect.vue";
 import QuestionbaseSelect from "./views/QuestionbaseSelect.vue";
 import GameRoom from "./views/GameRoom.vue";
 
-import test from "./components/canvas/DrawerCanvas.vue";
+import Test from "./views/Test.vue";
 
 
 Vue.use(Router)
@@ -50,7 +50,7 @@ const router =  new Router({
     {
       path: "/test",
       name: "test",
-      component: test
+      component: Test
     }
   ]
 });

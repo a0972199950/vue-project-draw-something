@@ -132,9 +132,10 @@ export default new Vuex.Store({
       database.ref(`roomsInGame/room_${roomId}/questionbaseId`).set(questionbaseId)
     },
 
-    listenQuestionbaseAsync(context, { questionbaseId }){
-      database.ref(`questionbase/${questionbaseId}`).once("value").then(snapshot => {
+    setQuestionbaseAsync(context, { questionbaseId }){
+      database.ref(`questionbase/${questionbaseId - 1}`).once("value").then(snapshot => {
         const questionbase = snapshot.val();
+        console.log(questionbase);
 
         context.commit("SELECT_QUESTIONBASE", { questionbase });
       })

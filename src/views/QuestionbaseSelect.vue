@@ -15,7 +15,8 @@ export default {
             this.randomQuestionbase();
         }
 
-        this.listenQuestionbase();
+        // player1和player2同時都要監聽firebase上的房間何時被選擇了questionBase
+        this.listenQuestionbaseSelected();
     },
 
     methods: {
@@ -25,13 +26,19 @@ export default {
                 const questionbases = snapshot.val();
                 const questionbase = this.random(questionbases);
 
+                console.log(questionbases, questionbase);
                 this.$store.dispatch("selectQuestionbaseAsync", { questionbaseId: questionbase.id });
             })
         },
 
-        listenQuestionbase(){
+        listenQuestionbaseSelected(){
             const roomId = this.$store.getters.userRoomId;
-            database.ref(`roomsInGame/room_${roomId}/questionbaseId`).on("value", this.onQuestionbaseSelect);
+            database.ref(`roomsInGame/room_${roomId}/questionbaseId`).on("value", (snapshot) => {
+                const questionbaseId = snapshot.val();
+                if(!questionbaseId) return;
+
+                this.$store.dispatch("setQuestionbaseAsync", { questionbaseId });
+            });
         },
 
         random(arr){
@@ -39,12 +46,6 @@ export default {
             const max = arr.length;
             const randomNum = Math.floor(Math.random() * (max - min) + min);
             return arr[randomNum];
-        },
-
-        onQuestionbaseSelect(snapshot){
-            const questionbaseId = snapshot.val();
-
-            this.$store.dispatch("listenQuestionbaseAsync", { questionbaseId });
         }
     },
 

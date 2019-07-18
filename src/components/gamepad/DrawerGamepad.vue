@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { database } from "../../firebase";
+import { database, storage } from "../../firebase";
 export default {
     data(){
         return {
@@ -36,7 +36,14 @@ export default {
 
         database.ref(`roomsInGame/room_${roomId}/questionId`).set(question.id).then(() => {
             console.log("題目random成功，題目為", question);
-            this.question = question;
+            
+            storage.ref(`${this.$store.getters.questionbase.title}/${question.title}.jpg`).getDownloadURL().then(url => {
+                this.question = {
+                    id: question.id,
+                    title: question.title,  
+                    photo: url                  
+                }
+            })
         }).catch(() => {
             alert("設定題目到firebase上失敗");
         });
